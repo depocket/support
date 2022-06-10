@@ -10,8 +10,8 @@ type Scheme[T any] struct {
 	types map[string]T
 }
 
-func (s *Scheme[T]) RegisterService(name string, t *T) {
-	s.types[name] = *t
+func (s *Scheme[T]) RegisterService(name string, t T) {
+	s.types[name] = t
 }
 
 func (s *Scheme[T]) New(name string) (*T, error) {
