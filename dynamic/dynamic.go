@@ -6,7 +6,7 @@ import (
 	"reflect"
 )
 
-type Scheme[T any] struct {
+type Scheme[T interface{}] struct {
 	types map[string]T
 }
 
