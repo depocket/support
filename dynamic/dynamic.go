@@ -14,12 +14,12 @@ func (s *Scheme[T]) RegisterService(name string, t T) {
 	s.types[name] = t
 }
 
-func (s *Scheme[T]) New(name string) (*T, error) {
+func (s *Scheme[T]) New(name string) (T, error) {
 	t, ok := s.types[name]
 	if !ok {
 		return nil, fmt.Errorf("unrecognized type name: %s", name)
 	}
-	return reflect.New(reflect.TypeOf(t)).Interface().(*T), nil
+	return reflect.New(reflect.TypeOf(t)).Interface().(T), nil
 }
 
 func (s *Scheme[T]) TotalServices() int {
