@@ -25,8 +25,11 @@ type Config struct {
 func NewConnection(log *zap.Logger, sch *string) *gorm.DB {
 	config := parseConfig()
 	connection := config.ToConnectionURI()
-	logger := zapgorm2.New(log)
-	logger.SetAsDefault()
+	var logger *zapgorm2.Logger = nil
+	if log != nil {
+		logger = zapgorm2.New(log)
+		logger.SetAsDefault()
+	}
 
 	public := "public"
 	if sch == nil {
