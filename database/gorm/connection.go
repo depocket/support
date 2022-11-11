@@ -6,6 +6,7 @@ import (
 	"go.uber.org/zap"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 	"log"
 	"moul.io/zapgorm2"
@@ -25,22 +26,29 @@ type Config struct {
 func NewConnection(log *zap.Logger, sch *string) *gorm.DB {
 	config := parseConfig()
 	connection := config.ToConnectionURI()
-	logger := zapgorm2.New(log)
-	logger.SetAsDefault()
+	lg := zapgorm2.New(log)
+	lg.SetAsDefault()
 
 	public := "public"
 	if sch == nil {
 		sch = &public
 	}
+
 	db, err := gorm.Open(postgres.Open(connection), &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
 			TablePrefix:   *sch + ".",
 			SingularTable: false,
 		},
-		Logger: logger,
 	})
+
 	if err != nil {
 		log.Error(err.Error())
+	}
+
+	if log != nil {
+		db.Logger = lg
+	} else {
+		db.Logger = logger.Default.LogMode(logger.Silent)
 	}
 	return db
 }
