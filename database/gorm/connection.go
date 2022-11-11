@@ -32,13 +32,18 @@ func NewConnection(log *zap.Logger, sch *string) *gorm.DB {
 	if sch == nil {
 		sch = &public
 	}
+
 	db, err := gorm.Open(postgres.Open(connection), &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
 			TablePrefix:   *sch + ".",
 			SingularTable: false,
 		},
-		Logger: logger,
 	})
+	
+	if log != nil {
+		db.Logger = logger
+	}
+
 	if err != nil {
 		log.Error(err.Error())
 	}
