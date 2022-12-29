@@ -23,6 +23,15 @@ func (s *Scheme[T]) New(name string) (T, error) {
 	return reflect.New(reflect.TypeOf(t).Elem()).Interface().(T), nil
 }
 
+func (s *Scheme[T]) Service(name string) (T, error) {
+	t, ok := s.types[name]
+	if !ok {
+		var x T
+		return x, fmt.Errorf("unrecognized type name: %s", name)
+	}
+	return t, nil
+}
+
 func (s *Scheme[T]) TotalServices() int {
 	return len(s.types)
 }
