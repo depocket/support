@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/Shopify/sarama"
+	"github.com/ThreeDotsLabs/watermill"
 	"github.com/ThreeDotsLabs/watermill-kafka/v2/pkg/kafka"
 	"github.com/depocket/support/queue"
 	"go.uber.org/zap"
@@ -27,13 +28,17 @@ func NewPublisher(z *zap.Logger) queue.Publisher {
 	config := parseConfig()
 	brokers := strings.Split(config.Servers, ",")
 
+	var logger watermill.LoggerAdapter = nil
+	if z != nil {
+		logger = queue.NewLogger(z)
+	}
 	publisher, err := kafka.NewPublisher(
 		kafka.PublisherConfig{
 			Brokers:               brokers,
 			Marshaler:             kafka.DefaultMarshaler{},
 			OverwriteSaramaConfig: DepocketSaramaPublisherConfig(),
 		},
-		queue.NewLogger(z),
+		logger,
 	)
 	if err != nil {
 		log.Fatal(err)
