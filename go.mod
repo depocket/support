@@ -3,6 +3,7 @@ module github.com/depocket/support
 go 1.18
 
 require (
+	github.com/Shopify/sarama v1.32.0
 	github.com/samber/lo v1.21.0
 	go.uber.org/zap v1.23.0
 	gorm.io/driver/postgres v1.4.5
@@ -11,7 +12,6 @@ require (
 )
 
 require (
-	github.com/Shopify/sarama v1.32.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/eapache/go-resiliency v1.2.0 // indirect
 	github.com/eapache/go-xerial-snappy v0.0.0-20180814174437-776d5712da21 // indirect
@@ -37,10 +37,9 @@ require (
 )
 
 require (
-	github.com/ThreeDotsLabs/watermill v1.2.0 // indirect
-	github.com/ThreeDotsLabs/watermill-kafka v1.0.1 // indirect
+	github.com/ThreeDotsLabs/watermill v1.2.0
 	github.com/ThreeDotsLabs/watermill-kafka/v2 v2.2.2
-	github.com/caarlos0/env/v6 v6.10.1 // indirect
+	github.com/caarlos0/env/v6 v6.10.1
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
 	github.com/jackc/pgconn v1.13.0 // indirect
